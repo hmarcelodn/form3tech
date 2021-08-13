@@ -1,26 +1,5 @@
 package model
 
-// Account Request / Response DTOs
-type CreateRequest struct {
-}
-
-type DeleteRequest struct {
-}
-
-type FetchResponse struct {
-	Data  []*AccountData `json:"data"`
-	Links *LinkData      `json:"links"`
-}
-
-type LinkData struct {
-	First string `json:"first"`
-	Last  string `json:"last"`
-	Self  string `json:"self"`
-}
-
-// Account represents an account in the form3 org section.
-// See https://api-docs.form3.tech/api.html#organisation-accounts for
-// more information about fields.
 type AccountData struct {
 	Attributes     *AccountAttributes `json:"attributes,omitempty"`
 	ID             string             `json:"id,omitempty"`
