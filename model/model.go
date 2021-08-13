@@ -1,5 +1,12 @@
 package model
 
+// Account Request / Response DTOs
+type CreateRequest struct {
+}
+
+type DeleteRequest struct {
+}
+
 type FetchResponse struct {
 	Data  []*AccountData `json:"data"`
 	Links *LinkData      `json:"links"`
