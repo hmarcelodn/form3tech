@@ -29,6 +29,10 @@ func (a AccountFetch) Fetch() client.FetchResponse {
 		log.Fatalln(readErr)
 	}
 
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+		log.Fatalln(resp.StatusCode, string(body))
+	}
+
 	var accounts client.FetchResponse
 	jsonErr := json.Unmarshal(body, &accounts)
 

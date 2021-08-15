@@ -19,15 +19,6 @@ func main() {
 		Iban:          "",
 	})
 
-	accountCreate.Create(client.Account{
-		Country:       "AU",
-		Name:          "Nacho Del Negro",
-		BankID:        "123456",
-		Bic:           "NWBKGB22",
-		AccountNumber: "",
-		Iban:          "",
-	})
-
 	fmt.Println("\nAccount:Fetch")
 	var accountFetch account.AccountFetch
 	var fetchResp client.FetchResponse = accountFetch.Fetch()

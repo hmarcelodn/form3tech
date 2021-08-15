@@ -15,18 +15,19 @@ import (
 
 type AccountCreate struct{}
 
-func (a AccountCreate) Create(account client.Account) string {
-	accountId, err := uuid.NewUUID()
-	organisationId, err := uuid.NewUUID()
+func (a AccountCreate) Create(account client.Account) {
+	accountId, err := uuid.NewRandom()
+	organisationId, err := uuid.NewRandom()
 
 	var accountAttributes model.AccountAttributes
-	accountBuilder := model.GetAccountBuilder(account.Country)
+	accountBuilder := model.AccountBuilder{}
 	accountAttributes = accountBuilder.
-		SetBankID(account.BankID).               // required. 6 characters
-		SetBic(account.Bic).                     // required.
-		SetAccountNumber(account.AccountNumber). // optional. 8 characters
-		SetIban(account.Iban).                   // optional.
-		SetName(account.Name).                   // required.
+		SetCountry(account.Country).
+		SetBankID(account.BankID).
+		SetBic(account.Bic).
+		SetAccountNumber(account.AccountNumber).
+		SetIban(account.Iban).
+		SetName(account.Name).
 		Build()
 
 	accountData := model.AccountData{
@@ -43,8 +44,6 @@ func (a AccountCreate) Create(account client.Account) string {
 	payload := new(bytes.Buffer)
 	json.NewEncoder(payload).Encode(accountCreateReq)
 
-	log.Println(payload)
-
 	resp, err := http.Post(config.AccountURI, "application/json", payload)
 
 	if err != nil {
@@ -59,5 +58,7 @@ func (a AccountCreate) Create(account client.Account) string {
 		log.Fatalln(err)
 	}
 
-	return string(body)
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+		log.Fatalln(resp.StatusCode, string(body))
+	}
 }

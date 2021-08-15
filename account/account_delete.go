@@ -1,7 +1,6 @@
 package account
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -28,5 +27,7 @@ func (a AccountDelete) Delete(uuid string) {
 		log.Fatalln(err)
 	}
 
-	fmt.Println(string(body))
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+		log.Fatalln(resp.StatusCode, string(body))
+	}
 }
