@@ -7,4 +7,5 @@ const (
 
 const (
 	RecordVersion = "version=0"
+	RecordType    = "accounts"
 )

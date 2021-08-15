@@ -10,7 +10,9 @@ import (
 	"github.com/hmarcelodn/form3tech/config"
 )
 
-func Fetch() client.FetchResponse {
+type AccountFetch struct{}
+
+func (a AccountFetch) Fetch() client.FetchResponse {
 	resp, getErr := http.Get(config.AccountURI)
 
 	if getErr != nil {

@@ -9,7 +9,9 @@ import (
 	"github.com/hmarcelodn/form3tech/config"
 )
 
-func Delete(uuid string) {
+type AccountDelete struct{}
+
+func (a AccountDelete) Delete(uuid string) {
 	req, err := http.NewRequest(http.MethodDelete, config.AccountURI+"/"+uuid+"?"+config.RecordVersion, nil)
 	client := &http.Client{}
 	resp, err := client.Do(req)

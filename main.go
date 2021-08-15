@@ -13,16 +13,18 @@ func main() {
 	//
 	fmt.Println("")
 	fmt.Println("Account:Create")
-	account.Create()
+	var accountCreate account.AccountCreate
+	accountCreate.Create()
 
 	//
 	// Fetch
 	//
 	fmt.Println("")
 	fmt.Println("Account:Fetch")
-	var fetchResp client.FetchResponse = account.Fetch()
+	var accountFetch account.AccountFetch
+	var fetchResp client.FetchResponse = accountFetch.Fetch()
 	for i, s := range fetchResp.Data {
-		fmt.Println(i, s.ID, s.Version)
+		fmt.Println(i, s.ID, *s.Version)
 	}
 
 	//
@@ -30,5 +32,6 @@ func main() {
 	//
 	fmt.Println("")
 	fmt.Println("Account:Delete")
-	account.Delete("ad27e265-9605-4b4b-a0e5-3003ea9cc42c")
+	var accountDelete account.AccountDelete
+	accountDelete.Delete("ad27e265-9605-4b4b-a0e5-3003ea9cc42c")
 }
