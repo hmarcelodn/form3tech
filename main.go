@@ -8,30 +8,34 @@ import (
 )
 
 func main() {
-	//
-	// Create
-	//
-	fmt.Println("")
 	fmt.Println("Account:Create")
 	var accountCreate account.AccountCreate
-	accountCreate.Create()
+	accountCreate.Create(client.Account{
+		Country:       "GB",
+		Name:          "Pablo Del Negro",
+		BankID:        "123456",
+		Bic:           "NWBKGB22",
+		AccountNumber: "",
+		Iban:          "",
+	})
 
-	//
-	// Fetch
-	//
-	fmt.Println("")
-	fmt.Println("Account:Fetch")
+	accountCreate.Create(client.Account{
+		Country:       "AU",
+		Name:          "Nacho Del Negro",
+		BankID:        "123456",
+		Bic:           "NWBKGB22",
+		AccountNumber: "",
+		Iban:          "",
+	})
+
+	fmt.Println("\nAccount:Fetch")
 	var accountFetch account.AccountFetch
 	var fetchResp client.FetchResponse = accountFetch.Fetch()
 	for i, s := range fetchResp.Data {
 		fmt.Println(i, s.ID, *s.Version)
 	}
 
-	//
-	// Delete
-	//
-	fmt.Println("")
-	fmt.Println("Account:Delete")
+	fmt.Println("\nAccount:Delete")
 	var accountDelete account.AccountDelete
 	accountDelete.Delete("ad27e265-9605-4b4b-a0e5-3003ea9cc42c")
 }
