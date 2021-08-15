@@ -1,8 +1,8 @@
 package config
 
 const (
-	BaseURL    = "http://localhost:8080"
-	AccountURI = BaseURL + "/v1/organisation/accounts"
+	baseURL    = "http://localhost:8080"
+	AccountURI = baseURL + "/v1/organisation/accounts"
 )
 
 const (

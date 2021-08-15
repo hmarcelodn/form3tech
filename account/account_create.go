@@ -8,9 +8,9 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/hmarcelodn/form3tech/model"
-
+	"github.com/hmarcelodn/form3tech/client"
 	"github.com/hmarcelodn/form3tech/config"
+	"github.com/hmarcelodn/form3tech/model"
 )
 
 type AccountCreate struct{}
@@ -39,7 +39,7 @@ func (a AccountCreate) Create() string {
 		Type:           config.RecordType,
 	}
 
-	accountCreateReq := model.AccountCreateRequest{
+	accountCreateReq := client.AccountCreateRequest{
 		Data: &accountData,
 	}
 	// END: Account Creation

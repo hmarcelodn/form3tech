@@ -1,9 +1,5 @@
 package model
 
-type AccountCreateRequest struct {
-	Data *AccountData `json:"data"`
-}
-
 type AccountData struct {
 	Attributes     *AccountAttributes `json:"attributes,omitempty"`
 	ID             string             `json:"id,omitempty"`
