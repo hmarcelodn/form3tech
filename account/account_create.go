@@ -3,11 +3,10 @@ package account
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 
-	"github.com/google/uuid"
 	"github.com/hmarcelodn/form3tech/client"
 	"github.com/hmarcelodn/form3tech/config"
 	"github.com/hmarcelodn/form3tech/model"
@@ -15,10 +14,7 @@ import (
 
 type AccountCreate struct{}
 
-func (a AccountCreate) Create(account client.Account) {
-	accountId, err := uuid.NewRandom()
-	organisationId, err := uuid.NewRandom()
-
+func (a AccountCreate) Create(account client.Account) (*client.AccountCreateResponse, error) {
 	var accountAttributes model.AccountAttributes
 	accountBuilder := model.AccountBuilder{}
 	accountAttributes = accountBuilder.
@@ -31,8 +27,8 @@ func (a AccountCreate) Create(account client.Account) {
 		Build()
 
 	accountData := model.AccountData{
-		ID:             accountId.String(),
-		OrganisationID: organisationId.String(),
+		ID:             account.AccountId,
+		OrganisationID: account.OrganisationID,
 		Attributes:     &accountAttributes,
 		Type:           config.RecordType,
 	}
@@ -45,9 +41,10 @@ func (a AccountCreate) Create(account client.Account) {
 	json.NewEncoder(payload).Encode(accountCreateReq)
 
 	resp, err := http.Post(config.AccountURI, "application/json", payload)
+	accountCreateResponse := client.AccountCreateResponse{}
 
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
 	defer resp.Body.Close()
@@ -55,10 +52,14 @@ func (a AccountCreate) Create(account client.Account) {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		log.Fatalln(err)
+		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
-		log.Fatalln(resp.StatusCode, string(body))
+		return nil, errors.New(string(body))
 	}
+
+	json.Unmarshal(body, &accountCreateResponse)
+
+	return &accountCreateResponse, nil
 }

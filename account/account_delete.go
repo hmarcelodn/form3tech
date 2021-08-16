@@ -1,8 +1,8 @@
 package account
 
 import (
+	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/hmarcelodn/form3tech/config"
@@ -10,13 +10,13 @@ import (
 
 type AccountDelete struct{}
 
-func (a AccountDelete) Delete(uuid string) {
+func (a AccountDelete) Delete(uuid string) (bool, error) {
 	req, err := http.NewRequest(http.MethodDelete, config.AccountURI+"/"+uuid+"?"+config.RecordVersion, nil)
 	client := &http.Client{}
 	resp, err := client.Do(req)
 
 	if err != nil {
-		log.Fatalln(err)
+		return false, errors.New(err.Error())
 	}
 
 	defer resp.Body.Close()
@@ -24,10 +24,12 @@ func (a AccountDelete) Delete(uuid string) {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		log.Fatalln(err)
+		return false, errors.New(err.Error())
 	}
 
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
-		log.Fatalln(resp.StatusCode, string(body))
+	if resp.StatusCode != http.StatusOK {
+		return false, errors.New(string(body))
 	}
+
+	return true, nil
 }

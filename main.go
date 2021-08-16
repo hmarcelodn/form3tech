@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 
+	"github.com/google/uuid"
 	"github.com/hmarcelodn/form3tech/account"
 	"github.com/hmarcelodn/form3tech/client"
 )
@@ -10,14 +12,26 @@ import (
 func main() {
 	fmt.Println("Account:Create")
 	var accountCreate account.AccountCreate
-	accountCreate.Create(client.Account{
-		Country:       "GB",
-		Name:          "Pablo Del Negro",
-		BankID:        "123456",
-		Bic:           "NWBKGB22",
-		AccountNumber: "",
-		Iban:          "",
+
+	accountId, err := uuid.NewRandom()
+	organisationId, err := uuid.NewRandom()
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	res, err := accountCreate.Create(client.Account{
+		AccountId:      accountId.String(),
+		OrganisationID: organisationId.String(),
+		Country:        "GB",
+		Name:           "Pablo Del Negro",
+		BankID:         "123456",
+		Bic:            "NWBKGB22",
+		AccountNumber:  "",
+		Iban:           "",
 	})
+
+	fmt.Println(res.Data.ID)
 
 	fmt.Println("\nAccount:Fetch")
 	var accountFetch account.AccountFetch
@@ -28,5 +42,5 @@ func main() {
 
 	fmt.Println("\nAccount:Delete")
 	var accountDelete account.AccountDelete
-	accountDelete.Delete("ad27e265-9605-4b4b-a0e5-3003ea9cc42c")
+	accountDelete.Delete("bbcea1e1-dd9a-4f76-8209-fbf1f3bdf486")
 }

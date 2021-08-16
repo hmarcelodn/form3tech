@@ -29,7 +29,7 @@ func (a AccountFetch) Fetch() client.FetchResponse {
 		log.Fatalln(readErr)
 	}
 
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+	if resp.StatusCode != http.StatusOK {
 		log.Fatalln(resp.StatusCode, string(body))
 	}
 
