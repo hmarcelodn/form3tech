@@ -24,3 +24,9 @@ Tests will automatically run when the `docker-compose up` command is executed. T
 
 - **Validations**: client-side validations have not been added for Create wrapper, because it was requested in the interview README file (should not section: don't write client side validations and keep it simple and consice). Also these validations were already handled by the domain accountapi so I return these errors to the client's user to learn about these errors and fix data when needed.
 - **Tests**: Since the tests were specified to be run agains the fake account api I consider it to be an integration test.
+
+
+TODO:
+- Add UML Class Diagram
+- Remove main.go
+- Write some unit tests to increase codecov
