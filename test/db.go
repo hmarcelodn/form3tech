@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	host     = "localhost"
+	host     = "postgresql"
 	port     = 5432
 	user     = "interview_accountapi_user"
 	password = "123"
