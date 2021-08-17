@@ -38,6 +38,7 @@ func TestCreateAccountWithValidCountry(t *testing.T) {
 	}
 
 	if err != nil {
+		t.Logf(err.Error())
 		t.Fail()
 	}
 }
@@ -59,6 +60,7 @@ func TestCreateAccountWithEmptyCountry(t *testing.T) {
 	}
 
 	if err != nil {
+		t.Logf(err.Error())
 		t.Failed()
 	}
 
@@ -71,6 +73,7 @@ func TestCreateAccountWithEmptyCountry(t *testing.T) {
 	}
 
 	if err == nil {
+		t.Logf(err.Error())
 		t.Fail()
 	}
 }

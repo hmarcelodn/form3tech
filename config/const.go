@@ -1,7 +1,7 @@
 package config
 
 const (
-	baseURL    = "http://localhost:8080"
+	baseURL    = "http://accountapi:8080"
 	AccountURI = baseURL + "/v1/organisation/accounts"
 )
 

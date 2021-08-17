@@ -26,6 +26,7 @@ func TestDeleteAccount(t *testing.T) {
 	}
 
 	if err != nil {
+		t.Logf(err.Error())
 		t.Fail()
 	}
 
@@ -37,6 +38,7 @@ func TestDeleteAccount(t *testing.T) {
 	}
 
 	if err != nil {
+		t.Logf(err.Error())
 		t.Failed()
 	}
 
@@ -54,6 +56,7 @@ func TestDeleteNonExistingAccount(t *testing.T) {
 	nonExistingAccountId, err := uuid.NewRandom()
 
 	if err != nil {
+		t.Logf(err.Error())
 		t.Failed()
 	}
 
