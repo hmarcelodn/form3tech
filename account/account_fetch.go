@@ -17,7 +17,7 @@ func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
 	resp, getErr := http.Get(config.AccountURI)
 
 	if getErr != nil {
-		return nil, errors.New(getErr.Error())
+		return nil, getErr
 	}
 
 	if resp.Body != nil {
@@ -27,7 +27,7 @@ func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
 	body, readErr := ioutil.ReadAll(resp.Body)
 
 	if readErr != nil {
-		return nil, errors.New(getErr.Error())
+		return nil, readErr
 	}
 
 	if resp.StatusCode != http.StatusOK {
@@ -36,7 +36,7 @@ func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
 
 	var accounts client.FetchResponse
 	if jsonErr := json.Unmarshal(body, &accounts); jsonErr != nil {
-		log.Fatalln(jsonErr)
+		return nil, jsonErr
 	}
 
 	return &accounts, nil
@@ -46,7 +46,7 @@ func (a AccountFetch) FetchByID(id string) (*client.FetchByIDResponse, error) {
 	resp, getErr := http.Get(config.AccountURI + "/" + id)
 
 	if getErr != nil {
-		return nil, errors.New(getErr.Error())
+		return nil, getErr
 	}
 
 	if resp.Body != nil {
@@ -56,12 +56,12 @@ func (a AccountFetch) FetchByID(id string) (*client.FetchByIDResponse, error) {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		return nil, errors.New(getErr.Error())
+		return nil, err
 	}
 
 	var account client.FetchByIDResponse
 	if err := json.Unmarshal(body, &account); err != nil {
-		return nil, errors.New(getErr.Error())
+		return nil, err
 	}
 
 	if resp.StatusCode != http.StatusOK {

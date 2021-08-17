@@ -60,7 +60,7 @@ func (a AccountCreate) Create(account client.Account) (*client.AccountCreateResp
 	}
 
 	if err := json.Unmarshal(body, &accountCreateResponse); err != nil {
-		return nil, errors.New(err.Error())
+		return nil, err
 	}
 
 	return &accountCreateResponse, nil

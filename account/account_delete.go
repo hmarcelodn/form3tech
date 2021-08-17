@@ -16,7 +16,7 @@ func (a AccountDelete) Delete(uuid string) (bool, error) {
 	resp, err := client.Do(req)
 
 	if err != nil {
-		return false, errors.New(err.Error())
+		return false, err
 	}
 
 	defer resp.Body.Close()
@@ -24,7 +24,7 @@ func (a AccountDelete) Delete(uuid string) (bool, error) {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		return false, errors.New(err.Error())
+		return false, err
 	}
 
 	if resp.StatusCode != http.StatusOK {
