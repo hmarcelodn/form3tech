@@ -16,4 +16,10 @@ type AccountAttributes struct {
 	SecondaryIdentification string   `json:"secondary_identification,omitempty"`
 	Status                  *string  `json:"status,omitempty"`
 	Switched                *bool    `json:"switched,omitempty"`
+	CustomerID              string   `json:"customer_id"`
+	ProcessingService       string   `json:"processing_service"`
+	UserDefinedInformation  string   `json:"user_defined_information"`
+	ValidationType          string   `json:"validation_type"`
+	ReferenceMask           string   `json:"reference_mask"`
+	AcceptanceQualifier     string   `json:"acceptance_qualifier"`
 }
