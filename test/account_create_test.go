@@ -41,6 +41,10 @@ func TestCreateAccountWithValidCountry(t *testing.T) {
 		t.Logf(err.Error())
 		t.Fail()
 	}
+
+	t.Cleanup(func() {
+		Truncate()
+	})
 }
 
 func TestCreateAccountWithEmptyCountry(t *testing.T) {
@@ -76,4 +80,8 @@ func TestCreateAccountWithEmptyCountry(t *testing.T) {
 		t.Logf(err.Error())
 		t.Fail()
 	}
+
+	t.Cleanup(func() {
+		Truncate()
+	})
 }

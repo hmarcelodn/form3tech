@@ -49,6 +49,9 @@ func TestDeleteAccount(t *testing.T) {
 	}
 
 	// Assert
+	t.Cleanup(func() {
+		Truncate()
+	})
 }
 
 func TestDeleteNonExistingAccount(t *testing.T) {
@@ -65,4 +68,8 @@ func TestDeleteNonExistingAccount(t *testing.T) {
 	if res == false && err == nil {
 		t.Failed()
 	}
+
+	t.Cleanup(func() {
+		Truncate()
+	})
 }
