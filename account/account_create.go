@@ -59,7 +59,9 @@ func (a AccountCreate) Create(account client.Account) (*client.AccountCreateResp
 		return nil, errors.New(string(body))
 	}
 
-	json.Unmarshal(body, &accountCreateResponse)
+	if err := json.Unmarshal(body, &accountCreateResponse); err != nil {
+		return nil, errors.New(err.Error())
+	}
 
 	return &accountCreateResponse, nil
 }
