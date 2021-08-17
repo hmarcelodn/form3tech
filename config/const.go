@@ -1,7 +1,9 @@
 package config
 
-const (
-	baseURL    = "http://localhost:8080"
+import "os"
+
+var (
+	baseURL    = os.Getenv("ACCOUNT_SERVICE_ADDR")
 	AccountURI = baseURL + "/v1/organisation/accounts"
 )
 
