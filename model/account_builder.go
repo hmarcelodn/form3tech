@@ -48,7 +48,7 @@ func (ab AccountBuilder) Build() AccountAttributes {
 		Country:       &country,
 		BankID:        ab.bankID,
 		Bic:           ab.bic,
-		BankIDCode:    "AUBSB",
+		BankIDCode:    ab.bankIDCode,
 		AccountNumber: ab.accountNumber,
 		Iban:          ab.iban,
 		Name:          name,
