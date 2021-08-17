@@ -2,6 +2,7 @@ package account
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -12,11 +13,11 @@ import (
 
 type AccountFetch struct{}
 
-func (a AccountFetch) Fetch() client.FetchResponse {
+func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
 	resp, getErr := http.Get(config.AccountURI)
 
 	if getErr != nil {
-		log.Fatalln(getErr)
+		return nil, errors.New(getErr.Error())
 	}
 
 	if resp.Body != nil {
@@ -26,7 +27,7 @@ func (a AccountFetch) Fetch() client.FetchResponse {
 	body, readErr := ioutil.ReadAll(resp.Body)
 
 	if readErr != nil {
-		log.Fatalln(readErr)
+		return nil, errors.New(getErr.Error())
 	}
 
 	if resp.StatusCode != http.StatusOK {
@@ -38,14 +39,14 @@ func (a AccountFetch) Fetch() client.FetchResponse {
 		log.Fatalln(jsonErr)
 	}
 
-	return accounts
+	return &accounts, nil
 }
 
-func (a AccountFetch) FetchByID(id string) client.FetchByIDResponse {
+func (a AccountFetch) FetchByID(id string) (*client.FetchByIDResponse, error) {
 	resp, getErr := http.Get(config.AccountURI + "/" + id)
 
 	if getErr != nil {
-		log.Fatalln(getErr)
+		return nil, errors.New(getErr.Error())
 	}
 
 	if resp.Body != nil {
@@ -55,13 +56,17 @@ func (a AccountFetch) FetchByID(id string) client.FetchByIDResponse {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		log.Fatalln(err)
+		return nil, errors.New(getErr.Error())
 	}
 
 	var account client.FetchByIDResponse
 	if err := json.Unmarshal(body, &account); err != nil {
-		log.Fatalln(err)
+		return nil, errors.New(getErr.Error())
 	}
 
-	return account
+	if resp.StatusCode != http.StatusOK {
+		return nil, errors.New(string(body))
+	}
+
+	return &account, nil
 }
