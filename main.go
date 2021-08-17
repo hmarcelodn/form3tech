@@ -7,7 +7,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/hmarcelodn/form3tech/account"
 	"github.com/hmarcelodn/form3tech/client"
-	"github.com/hmarcelodn/form3tech/test"
 )
 
 func main() {
@@ -45,6 +44,7 @@ func main() {
 	var accountDelete account.AccountDelete
 	accountDelete.Delete("bbcea1e1-dd9a-4f76-8209-fbf1f3bdf486")
 
-	// Database
-	test.Truncate()
+	fmt.Println("\nAccount:FetchByID")
+	var resp client.FetchByIDResponse = accountFetch.FetchByID(res.Data.ID)
+	fmt.Println(resp.Data.ID)
 }

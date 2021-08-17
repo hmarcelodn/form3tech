@@ -1,7 +1,6 @@
 package test
 
 import (
-	"log"
 	"testing"
 
 	"github.com/google/uuid"
@@ -10,7 +9,6 @@ import (
 )
 
 func TestCreateAccountWithValidCountry(t *testing.T) {
-	// Arrange
 	var accountCreate account.AccountCreate
 	organisationId, err := uuid.NewRandom()
 	accountId, err := uuid.NewRandom()
@@ -26,18 +24,11 @@ func TestCreateAccountWithValidCountry(t *testing.T) {
 	}
 
 	if err != nil {
-		log.Fatalln(err)
-	}
-
-	// Act
-	res, err := accountCreate.Create(account)
-
-	// Assert
-	if res == nil {
+		t.Logf(err.Error())
 		t.Fail()
 	}
 
-	if err != nil {
+	if _, err := accountCreate.Create(account); err != nil {
 		t.Logf(err.Error())
 		t.Fail()
 	}
@@ -48,7 +39,6 @@ func TestCreateAccountWithValidCountry(t *testing.T) {
 }
 
 func TestCreateAccountWithEmptyCountry(t *testing.T) {
-	// Arrange
 	var accountCreate account.AccountCreate
 	organisationId, err := uuid.NewRandom()
 	accountId, err := uuid.NewRandom()
@@ -65,18 +55,10 @@ func TestCreateAccountWithEmptyCountry(t *testing.T) {
 
 	if err != nil {
 		t.Logf(err.Error())
-		t.Failed()
-	}
-
-	// Act
-	res, err := accountCreate.Create(account)
-
-	// Assert
-	if res != nil {
 		t.Fail()
 	}
 
-	if err == nil {
+	if _, err := accountCreate.Create(account); err == nil {
 		t.Logf(err.Error())
 		t.Fail()
 	}

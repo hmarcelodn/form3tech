@@ -35,6 +35,4 @@ func Truncate() {
 	if _, err := db.Exec(`TRUNCATE TABLE "Account"`); err != nil {
 		panic(err)
 	}
-
-	fmt.Println("Successfuly connected")
 }

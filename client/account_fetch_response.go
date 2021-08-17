@@ -8,3 +8,8 @@ type FetchResponse struct {
 	Data  []*model.AccountData `json:"data"`
 	Links *model.LinkData      `json:"links"`
 }
+
+type FetchByIDResponse struct {
+	Data  *model.AccountData `json:"data"`
+	Links *model.LinkData    `json:"links"`
+}

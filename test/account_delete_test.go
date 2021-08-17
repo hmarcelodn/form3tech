@@ -9,7 +9,6 @@ import (
 )
 
 func TestDeleteAccount(t *testing.T) {
-	// Arrange
 	accountCreate := account.AccountCreate{}
 	accountDelete := account.AccountDelete{}
 	organisationId, err := uuid.NewRandom()
@@ -30,25 +29,23 @@ func TestDeleteAccount(t *testing.T) {
 		t.Fail()
 	}
 
-	// Act
 	accountCreated, err := accountCreate.Create(account)
 
 	if accountCreated == nil {
-		t.Failed()
+		t.Fail()
 	}
 
 	if err != nil {
 		t.Logf(err.Error())
-		t.Failed()
+		t.Fail()
 	}
 
 	res, err := accountDelete.Delete(accountCreated.Data.ID)
 
 	if res != false {
-		t.Failed()
+		t.Fail()
 	}
 
-	// Assert
 	t.Cleanup(func() {
 		Truncate()
 	})
@@ -60,13 +57,13 @@ func TestDeleteNonExistingAccount(t *testing.T) {
 
 	if err != nil {
 		t.Logf(err.Error())
-		t.Failed()
+		t.Fail()
 	}
 
 	res, err := accountDelete.Delete(nonExistingAccountId.String())
 
 	if res == false && err == nil {
-		t.Failed()
+		t.Fail()
 	}
 
 	t.Cleanup(func() {

@@ -34,11 +34,34 @@ func (a AccountFetch) Fetch() client.FetchResponse {
 	}
 
 	var accounts client.FetchResponse
-	jsonErr := json.Unmarshal(body, &accounts)
-
-	if jsonErr != nil {
+	if jsonErr := json.Unmarshal(body, &accounts); jsonErr != nil {
 		log.Fatalln(jsonErr)
 	}
 
 	return accounts
+}
+
+func (a AccountFetch) FetchByID(id string) client.FetchByIDResponse {
+	resp, getErr := http.Get(config.AccountURI + "/" + id)
+
+	if getErr != nil {
+		log.Fatalln(getErr)
+	}
+
+	if resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	var account client.FetchByIDResponse
+	if err := json.Unmarshal(body, &account); err != nil {
+		log.Fatalln(err)
+	}
+
+	return account
 }
