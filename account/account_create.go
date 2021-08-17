@@ -24,6 +24,12 @@ func (a AccountCreate) Create(account client.Account) (*client.AccountCreateResp
 		SetAccountNumber(account.AccountNumber).
 		SetIban(account.Iban).
 		SetName(account.Name).
+		SetCustomerID(account.CustomerID).
+		SetProcessingService(account.ProcessingService).
+		SetUserDefinedInformation(account.UserDefinedInformation).
+		SetValidationType(account.ValidationType).
+		SetReferenceMask(account.ReferenceMask).
+		SetAcceptanceQualifier(account.AcceptanceQualifier).
 		Build()
 
 	accountData := model.AccountData{
