@@ -1,18 +1,25 @@
 package test
 
 import (
+	"net/http"
 	"testing"
 
 	"github.com/hmarcelodn/form3tech/account"
 )
 
 func TestCreateAccountWithValidCountry(t *testing.T) {
+	account.Client = &http.Client{}
 	var accountCreate account.AccountCreate
 	accountFixture := AccountFixture{}
-	account := accountFixture.Create()
 
-	if _, err := accountCreate.Create(account); err != nil {
-		t.Logf(err.Error())
+	res, err := accountCreate.Create(accountFixture.Create())
+
+	if res == nil {
+		t.Fail()
+	}
+
+	if err != nil {
+		t.Log(err)
 		t.Fail()
 	}
 
@@ -22,6 +29,7 @@ func TestCreateAccountWithValidCountry(t *testing.T) {
 }
 
 func TestCreateAccountWithEmptyCountry(t *testing.T) {
+	account.Client = &http.Client{}
 	var accountCreate account.AccountCreate
 	accountFixture := AccountFixture{}
 	account := accountFixture.CreateInvalid()

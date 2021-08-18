@@ -15,7 +15,9 @@ import (
 func TestDeleteWithFailedRequest(t *testing.T) {
 	account.Client = &utils.MockClient{}
 	utils.DoFunc = func(req *http.Request) (*http.Response, error) {
-		return &http.Response{StatusCode: 400}, errors.New("Mock: Failed Forced Error")
+		return &http.Response{
+			StatusCode: 400,
+		}, errors.New("account_delete_test: Failed Forced Error")
 	}
 
 	accountId, err := uuid.NewRandom()
@@ -37,7 +39,10 @@ func TestDeleteWithBadRequestResponse(t *testing.T) {
 	r := ioutil.NopCloser(bytes.NewReader([]byte(bodyErr)))
 	account.Client = &utils.MockClient{}
 	utils.DoFunc = func(req *http.Request) (*http.Response, error) {
-		return &http.Response{StatusCode: 400, Body: r}, nil
+		return &http.Response{
+			StatusCode: 400,
+			Body:       r,
+		}, nil
 	}
 
 	accountId, err := uuid.NewRandom()
@@ -59,7 +64,10 @@ func TestDeleteWithInvalidBody(t *testing.T) {
 	r := ioutil.NopCloser(bytes.NewReader([]byte(bodyErr)))
 	account.Client = &utils.MockClient{}
 	utils.DoFunc = func(req *http.Request) (*http.Response, error) {
-		return &http.Response{StatusCode: 400, Body: r}, nil
+		return &http.Response{
+			StatusCode: 400,
+			Body:       r,
+		}, nil
 	}
 
 	accountId, err := uuid.NewRandom()
@@ -81,7 +89,10 @@ func TestDeleteWithSuccess(t *testing.T) {
 	r := ioutil.NopCloser(bytes.NewReader([]byte(bodyErr)))
 	account.Client = &utils.MockClient{}
 	utils.DoFunc = func(req *http.Request) (*http.Response, error) {
-		return &http.Response{StatusCode: 200, Body: r}, nil
+		return &http.Response{
+			StatusCode: 200,
+			Body:       r,
+		}, nil
 	}
 
 	accountId, err := uuid.NewRandom()

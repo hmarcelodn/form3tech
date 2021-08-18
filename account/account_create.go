@@ -46,22 +46,23 @@ func (a AccountCreate) Create(account client.Account) (*client.AccountCreateResp
 	payload := new(bytes.Buffer)
 	json.NewEncoder(payload).Encode(accountCreateReq)
 
-	resp, err := http.Post(config.AccountURI, "application/json", payload)
+	req, err := http.NewRequest(http.MethodPost, config.AccountURI, payload)
+	res, reqErr := Client.Do(req)
 	accountCreateResponse := client.AccountCreateResponse{}
 
+	if reqErr != nil {
+		return nil, reqErr
+	}
+
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+
 	if err != nil {
 		return nil, err
 	}
 
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+	if res.StatusCode != http.StatusOK && res.StatusCode != http.StatusCreated {
 		return nil, errors.New(string(body))
 	}
 
