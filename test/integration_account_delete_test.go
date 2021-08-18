@@ -9,26 +9,19 @@ import (
 )
 
 func TestDeleteAccount(t *testing.T) {
+	Seed()
+
 	account.Client = &http.Client{}
-	accountCreate := account.AccountCreate{}
 	accountDelete := account.AccountDelete{}
-	accountFixture := AccountFixture{}
-	account := accountFixture.Create()
 
-	accountCreated, err := accountCreate.Create(account)
+	res, err := accountDelete.Delete("0C879B45-CEEF-4350-946C-D672CDC43FB6")
 
-	if accountCreated == nil {
+	if res == false {
 		t.Fail()
 	}
 
 	if err != nil {
-		t.Logf(err.Error())
-		t.Fail()
-	}
-
-	res, err := accountDelete.Delete(accountCreated.Data.ID)
-
-	if res != false {
+		t.Log(err)
 		t.Fail()
 	}
 
@@ -38,6 +31,8 @@ func TestDeleteAccount(t *testing.T) {
 }
 
 func TestDeleteNonExistingAccount(t *testing.T) {
+	Seed()
+
 	accountDelete := account.AccountDelete{}
 	nonExistingAccountId, err := uuid.NewRandom()
 

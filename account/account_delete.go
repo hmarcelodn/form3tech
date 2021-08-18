@@ -26,7 +26,7 @@ func (a AccountDelete) Delete(uuid string) (bool, error) {
 		return false, err
 	}
 
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 		return false, errors.New(string(body))
 	}
 

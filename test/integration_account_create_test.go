@@ -8,6 +8,8 @@ import (
 )
 
 func TestCreateAccountWithValidCountry(t *testing.T) {
+	Seed()
+
 	account.Client = &http.Client{}
 	var accountCreate account.AccountCreate
 	accountFixture := AccountFixture{}
@@ -29,6 +31,8 @@ func TestCreateAccountWithValidCountry(t *testing.T) {
 }
 
 func TestCreateAccountWithEmptyCountry(t *testing.T) {
+	Seed()
+
 	account.Client = &http.Client{}
 	var accountCreate account.AccountCreate
 	accountFixture := AccountFixture{}

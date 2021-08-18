@@ -7,25 +7,17 @@ import (
 )
 
 func TestFetchExistingMultipleAccounts(t *testing.T) {
-	accountCreate := account.AccountCreate{}
+	Seed()
+
 	accountFetch := account.AccountFetch{}
-	accountFixture := AccountFixture{}
-
-	account := accountFixture.Create()
-	createResp, err := accountCreate.Create(account)
-
-	if createResp == nil {
-		t.Fail()
-	}
+	res, err := accountFetch.Fetch()
 
 	if err != nil {
 		t.Logf(err.Error())
 		t.Fail()
 	}
 
-	res, err := accountFetch.Fetch()
-
-	if len(res.Data) == 0 {
+	if len(res.Data) < 2 {
 		t.Logf(`Error: Non rows were fetched.`)
 		t.Fail()
 	}
@@ -36,19 +28,11 @@ func TestFetchExistingMultipleAccounts(t *testing.T) {
 }
 
 func TestFetchExistingSingleAccount(t *testing.T) {
+	Seed()
+
 	accountFetch := account.AccountFetch{}
-	accountCreate := account.AccountCreate{}
-	accountFixture := AccountFixture{}
 
-	account := accountFixture.Create()
-	createResp, err := accountCreate.Create(account)
-
-	if err != nil {
-		t.Logf(err.Error())
-		t.Fail()
-	}
-
-	if _, err := accountFetch.FetchByID(createResp.Data.ID); err != nil {
+	if _, err := accountFetch.FetchByID("0C879B45-CEEF-4350-946C-D672CDC43FB5"); err != nil {
 		t.Logf(err.Error())
 		t.Fail()
 	}
@@ -59,9 +43,15 @@ func TestFetchExistingSingleAccount(t *testing.T) {
 }
 
 func TestFetchNonExistingAccountID(t *testing.T) {
+	Seed()
+
 	accountFetch := account.AccountFetch{}
 	if _, err := accountFetch.FetchByID("fake"); err == nil {
 		t.Logf(err.Error())
 		t.Fail()
 	}
+
+	t.Cleanup(func() {
+		Truncate()
+	})
 }
