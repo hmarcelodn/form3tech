@@ -33,7 +33,7 @@ func TestDeleteWithFailedRequest(t *testing.T) {
 }
 
 func TestDeleteWithBadRequestResponse(t *testing.T) {
-	bodyErr := "invalid body error"
+	bodyErr := "account_delete_test: Failed request response"
 	r := ioutil.NopCloser(bytes.NewReader([]byte(bodyErr)))
 	account.Client = &utils.MockClient{}
 	utils.DoFunc = func(req *http.Request) (*http.Response, error) {
