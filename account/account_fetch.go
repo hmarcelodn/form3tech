@@ -35,10 +35,6 @@ func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
 		return nil, readErr
 	}
 
-	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(string(body))
-	}
-
 	var accounts client.FetchResponse
 	if jsonErr := json.Unmarshal(body, &accounts); jsonErr != nil {
 		return nil, jsonErr

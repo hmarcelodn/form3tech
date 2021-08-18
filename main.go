@@ -50,9 +50,9 @@ func main() {
 	fmt.Println(resp.Data.ID)
 
 	fmt.Println("\nAccount:Delete")
-	var accountDelete account.AccountDelete
+	// var accountDelete account.AccountDelete
 	for i, s := range fetchResp.Data {
 		fmt.Println(i, s.ID, *s.Version)
-		accountDelete.Delete(s.ID)
+		// accountDelete.Delete(s.ID)
 	}
 }
