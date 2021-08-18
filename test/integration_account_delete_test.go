@@ -1,6 +1,7 @@
 package test
 
 import (
+	"net/http"
 	"testing"
 
 	"github.com/google/uuid"
@@ -8,6 +9,7 @@ import (
 )
 
 func TestDeleteAccount(t *testing.T) {
+	account.Client = &http.Client{}
 	accountCreate := account.AccountCreate{}
 	accountDelete := account.AccountDelete{}
 	accountFixture := AccountFixture{}
