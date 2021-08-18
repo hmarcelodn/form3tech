@@ -10,8 +10,8 @@ import (
 
 type AccountDelete struct{}
 
-func (a AccountDelete) Delete(uuid string) (bool, error) {
-	req, err := http.NewRequest(http.MethodDelete, config.AccountURI+"/"+uuid+"?"+config.RecordVersion, nil)
+func (a AccountDelete) Delete(id string) (bool, error) {
+	req, err := http.NewRequest(http.MethodDelete, config.GetAccountDeleteUri(id), nil)
 	resp, err := Client.Do(req)
 
 	if err != nil {

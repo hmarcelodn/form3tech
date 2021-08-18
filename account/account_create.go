@@ -47,7 +47,7 @@ func (a AccountCreate) Create(account client.Account) (*client.AccountCreateResp
 	payload := new(bytes.Buffer)
 	json.NewEncoder(payload).Encode(accountCreateReq)
 
-	req, err := http.NewRequest(http.MethodPost, config.AccountURI, payload)
+	req, err := http.NewRequest(http.MethodPost, config.GetAccountUri(), payload)
 	res, reqErr := Client.Do(req)
 
 	if reqErr != nil {

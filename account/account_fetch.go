@@ -13,7 +13,7 @@ import (
 type AccountFetch struct{}
 
 func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
-	req, reqErr := http.NewRequest(http.MethodGet, config.AccountURI, nil)
+	req, reqErr := http.NewRequest(http.MethodGet, config.GetAccountUri(), nil)
 
 	if reqErr != nil {
 		return nil, reqErr
@@ -44,7 +44,7 @@ func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
 }
 
 func (a AccountFetch) FetchByID(id string) (*client.FetchByIDResponse, error) {
-	req, reqErr := http.NewRequest(http.MethodGet, config.AccountURI+"/"+id, nil)
+	req, reqErr := http.NewRequest(http.MethodGet, config.GetAccountByIdUri(id), nil)
 
 	if reqErr != nil {
 		return nil, reqErr
