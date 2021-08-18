@@ -76,3 +76,55 @@ func TestFetchWithFailedRequest(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestFetchByIdWithValidResponse(t *testing.T) {
+	body := "{\n    \"data\": {\n        \"attributes\": {\n            \"alternative_names\": null,\n            \"bank_id\": \"400300\",\n            \"bank_id_code\": \"GBDSC\",\n            \"bic\": \"NWBKGB22\",\n            \"country\": \"GB\",\n            \"name\": [\n                \"Pablo Del Negro\"\n            ]\n        },\n        \"created_on\": \"2021-08-18T04:27:42.889Z\",\n        \"id\": \"2ef27ff1-498a-4277-8235-56d43cf9740a\",\n        \"modified_on\": \"2021-08-18T04:27:42.889Z\",\n        \"organisation_id\": \"431cd5d4-9750-4eb6-bc64-67b582ef0671\",\n        \"type\": \"accounts\",\n        \"version\": 0\n    },\n    \"links\": {\n        \"self\": \"/v1/organisation/accounts/2ef27ff1-498a-4277-8235-56d43cf9740a\"\n    }\n}"
+	r := ioutil.NopCloser(bytes.NewReader([]byte(body)))
+	account.Client = &utils.MockClient{}
+	utils.DoFunc = func(req *http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: 200,
+			Body:       r,
+		}, nil
+	}
+
+	accountFetch := account.AccountFetch{}
+	res, err := accountFetch.FetchByID("2ef27ff1-498a-4277-8235-56d43cf9740a")
+
+	if res == nil {
+		t.Fail()
+	}
+
+	if res.Data.ID != "2ef27ff1-498a-4277-8235-56d43cf9740a" {
+		t.Fail()
+	}
+
+	if err != nil {
+		t.Logf(err.Error())
+		t.Fail()
+	}
+}
+
+func TestFetchByIdWith404Response(t *testing.T) {
+	bodyErr := "{\n    \"error_message\": \"record 2ef27ff1-498a-4277-8235-56d43cf9740a does not exist\"\n}"
+	r := ioutil.NopCloser(bytes.NewReader([]byte(bodyErr)))
+	account.Client = &utils.MockClient{}
+	utils.DoFunc = func(req *http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: 404,
+			Body:       r,
+		}, nil
+	}
+
+	accountFetch := account.AccountFetch{}
+	res, err := accountFetch.FetchByID("2ef27ff1-498a-4277-8235-56d43cf9740a")
+
+	if res != nil {
+		t.Fail()
+	}
+
+	if err == nil {
+		t.Fail()
+	}
+
+}
