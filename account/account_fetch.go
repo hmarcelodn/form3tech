@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/hmarcelodn/form3tech/client"
@@ -14,7 +13,13 @@ import (
 type AccountFetch struct{}
 
 func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
-	resp, getErr := http.Get(config.AccountURI)
+	req, reqErr := http.NewRequest(http.MethodGet, config.AccountURI, nil)
+
+	if reqErr != nil {
+		return nil, reqErr
+	}
+
+	resp, getErr := Client.Do(req)
 
 	if getErr != nil {
 		return nil, getErr
@@ -31,7 +36,7 @@ func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		log.Fatalln(resp.StatusCode, string(body))
+		return nil, errors.New(string(body))
 	}
 
 	var accounts client.FetchResponse
@@ -43,7 +48,13 @@ func (a AccountFetch) Fetch() (*client.FetchResponse, error) {
 }
 
 func (a AccountFetch) FetchByID(id string) (*client.FetchByIDResponse, error) {
-	resp, getErr := http.Get(config.AccountURI + "/" + id)
+	req, reqErr := http.NewRequest(http.MethodGet, config.AccountURI+"/"+id, nil)
+
+	if reqErr != nil {
+		return nil, reqErr
+	}
+
+	resp, getErr := Client.Do(req)
 
 	if getErr != nil {
 		return nil, getErr
