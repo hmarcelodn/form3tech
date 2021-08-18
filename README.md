@@ -47,5 +47,5 @@ The docker-compose.yml file has been extended to support the wrapper library and
 - **Validations**: No client side validations were added as Form3 requested. I leave this responsability to the accountapi business domain. Instead if validations problems are being returned I bubble them up to the client code so the user learn from domain messages.
 - **Tests**: Given the instructions from Form3 and the explicit need to run tests agains the fake accountapi I saw the need to add integration tests in addition to the written unit tests.
 
-NOTE: I do not have experience with Golang.
+**NOTE: I do not have any previous experience with Golang.**
 
