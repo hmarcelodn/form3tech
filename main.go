@@ -25,11 +25,16 @@ func main() {
 		OrganisationID: organisationId.String(),
 		Country:        "GB",
 		Name:           "Pablo Del Negro",
-		BankID:         "123456",
+		BankID:         "400300",
 		Bic:            "NWBKGB22",
 		AccountNumber:  "",
 		Iban:           "",
+		BankIDCode:     "GBDSC",
 	})
+
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	fmt.Println(res.Data.ID)
 

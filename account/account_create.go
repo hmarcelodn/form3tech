@@ -15,22 +15,23 @@ import (
 type AccountCreate struct{}
 
 func (a AccountCreate) Create(account client.Account) (*client.AccountCreateResponse, error) {
-	var accountAttributes model.AccountAttributes
-	accountBuilder := model.AccountBuilder{}
-	accountAttributes = accountBuilder.
-		SetCountry(account.Country).
-		SetBankID(account.BankID).
-		SetBic(account.Bic).
-		SetAccountNumber(account.AccountNumber).
-		SetIban(account.Iban).
-		SetName(account.Name).
-		SetCustomerID(account.CustomerID).
-		SetProcessingService(account.ProcessingService).
-		SetUserDefinedInformation(account.UserDefinedInformation).
-		SetValidationType(account.ValidationType).
-		SetReferenceMask(account.ReferenceMask).
-		SetAcceptanceQualifier(account.AcceptanceQualifier).
-		Build()
+	var name []string
+	name = append(name, account.Name)
+	accountAttributes := model.AccountAttributes{
+		Country:                &account.Country,
+		BankID:                 account.BankID,
+		Bic:                    account.Bic,
+		BankIDCode:             account.BankIDCode,
+		AccountNumber:          account.AccountNumber,
+		Iban:                   account.Iban,
+		Name:                   name,
+		CustomerID:             account.CustomerID,
+		ProcessingService:      account.ProcessingService,
+		UserDefinedInformation: account.UserDefinedInformation,
+		ValidationType:         account.ValidationType,
+		ReferenceMask:          account.ReferenceMask,
+		AcceptanceQualifier:    account.AcceptanceQualifier,
+	}
 
 	accountData := model.AccountData{
 		ID:             account.AccountId,
@@ -48,7 +49,6 @@ func (a AccountCreate) Create(account client.Account) (*client.AccountCreateResp
 
 	req, err := http.NewRequest(http.MethodPost, config.AccountURI, payload)
 	res, reqErr := Client.Do(req)
-	accountCreateResponse := client.AccountCreateResponse{}
 
 	if reqErr != nil {
 		return nil, reqErr
@@ -65,6 +65,8 @@ func (a AccountCreate) Create(account client.Account) (*client.AccountCreateResp
 	if res.StatusCode != http.StatusOK && res.StatusCode != http.StatusCreated {
 		return nil, errors.New(string(body))
 	}
+
+	accountCreateResponse := client.AccountCreateResponse{}
 
 	if err := json.Unmarshal(body, &accountCreateResponse); err != nil {
 		return nil, err

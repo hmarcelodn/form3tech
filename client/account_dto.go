@@ -15,4 +15,5 @@ type Account struct {
 	ValidationType         string
 	ReferenceMask          string
 	AcceptanceQualifier    string
+	BankIDCode             string
 }

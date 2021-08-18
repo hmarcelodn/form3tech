@@ -24,6 +24,7 @@ func (a AccountFixture) Create() client.Account {
 		Iban:           "",
 		OrganisationID: organisationId.String(),
 		AccountId:      accountId.String(),
+		BankIDCode:     "GBDSC",
 	}
 
 	return account
@@ -46,6 +47,7 @@ func (a AccountFixture) CreateInvalid() client.Account {
 		Iban:           "",
 		OrganisationID: organisationId.String(),
 		AccountId:      accountId.String(),
+		BankIDCode:     "GBDSC",
 	}
 
 	return account
