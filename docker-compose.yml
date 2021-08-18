@@ -51,6 +51,8 @@ services:
       - DATABASE_NAME=interview_accountapi
       - PSQL_PORT=5432
       - ACCOUNT_SERVICE_ADDR=http://accountapi:8080
+    volumes:
+      - .:/go/src/github.com/hmarcelodn/form3tech/    
     depends_on: 
       - accountapi
       - postgresql
