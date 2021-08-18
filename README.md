@@ -27,15 +27,15 @@ Tests will automatically run when the `docker-compose up` command is executed. T
 
 Integration tests have been added to test the e2e wrapper functionality. I created db.go file which perform 2 operations:
 
-1. Seed: Produces data to make it available for tests. (it runs at the beggining of the test).
-2. Truncate: Cleans up the accounts table after tests were ran. (it runs on test cleanup).
+1. **Seed**: Produces data to make it available for tests. (it runs at the beggining of the test).
+2. **Truncate**: Cleans up the accounts table after tests were ran. (it runs on test cleanup).
 
 ## Unit Tests
 
 Unit tests have been added to test individual component behavior. I created the mocks.go and http_client.go files.
 
-1. mocks.go: This mocks the HttpClient and make the method Do() configurable so I can mock it during unit tests execution.
-2. http_client.go: This is an interface needed for polymorphism, so I can mock it later using my own MockClient struct.
+1. **mocks.go**: This mocks the HttpClient and make the method Do() configurable so I can mock it during unit tests execution.
+2. **http_client.go**: This is an interface needed for polymorphism, so I can mock it later using my own MockClient struct.
 
 ## Dockerization
 
