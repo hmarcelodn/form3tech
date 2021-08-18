@@ -1,3 +1,6 @@
+![Form3-Financial-Cloud-logo](https://user-images.githubusercontent.com/5897525/129848325-c8b3830a-14a3-4dba-a137-c8cfd52db8b7.jpeg)
+
+
 # Form3 - Client
 
 Wrapper library created by Hugo Marcelo Del Negro for Form3 Technical Interview. This library acts as a wrapper to communicate with Form3 fake accountapi provided in a Docker image.
