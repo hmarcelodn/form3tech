@@ -52,3 +52,27 @@ func TestCreateAccountWithFailedRequest(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestCreateAccountWithBadRequestResponse(t *testing.T) {
+	bodyErr := "account_create_test: bad request response"
+	r := ioutil.NopCloser(bytes.NewReader([]byte(bodyErr)))
+	account.Client = &utils.MockClient{}
+	utils.DoFunc = func(req *http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: 400,
+			Body:       r,
+		}, nil
+	}
+
+	accountCreate := account.AccountCreate{}
+	accountFixture := AccountFixture{}
+	res, err := accountCreate.Create(accountFixture.Create())
+
+	if res != nil {
+		t.Fail()
+	}
+
+	if err == nil {
+		t.Fail()
+	}
+}
