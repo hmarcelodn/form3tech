@@ -12,7 +12,7 @@ func TestCreateAccountWithValidCountry(t *testing.T) {
 
 	account.Client = &http.Client{}
 	var accountCreate account.AccountCreate
-	accountFixture := AccountFixture{}
+	accountFixture := FixtureAccount{}
 
 	res, err := accountCreate.Create(accountFixture.Create())
 
@@ -35,7 +35,7 @@ func TestCreateAccountWithEmptyCountry(t *testing.T) {
 
 	account.Client = &http.Client{}
 	var accountCreate account.AccountCreate
-	accountFixture := AccountFixture{}
+	accountFixture := FixtureAccount{}
 	account := accountFixture.CreateInvalid()
 
 	if _, err := accountCreate.Create(account); err == nil {

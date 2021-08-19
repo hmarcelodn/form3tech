@@ -12,8 +12,9 @@ import (
 )
 
 func TestCreateAccountWithSuccess(t *testing.T) {
-	bodyErr := "{\n    \"data\": {\n        \"attributes\": {\n            \"alternative_names\": null,\n            \"bank_id\": \"400300\",\n            \"bank_id_code\": \"GBDSC\",\n            \"base_currency\": \"GBP\",\n            \"bic\": \"NWBKGB22\",\n            \"country\": \"GB\",\n            \"name\": [\n                \"Marcelo\"\n            ]\n        },\n        \"created_on\": \"2021-08-18T03:10:10.177Z\",\n        \"id\": \"ad27e265-9605-4b4b-a0e5-3003ea9cc42d\",\n        \"modified_on\": \"2021-08-18T03:10:10.177Z\",\n        \"organisation_id\": \"eb0bd6f5-c3f5-44b2-b677-acd23cdde73c\",\n        \"type\": \"accounts\",\n        \"version\": 0\n    },\n    \"links\": {\n        \"self\": \"/v1/organisation/accounts/ad27e265-9605-4b4b-a0e5-3003ea9cc42d\"\n    }\n}"
-	r := ioutil.NopCloser(bytes.NewReader([]byte(bodyErr)))
+	fixtureAccountCreateResponse := FixtureAccountCreateResponse{}
+	fetchByIdResponse := fixtureAccountCreateResponse.Create()
+	r := ioutil.NopCloser(bytes.NewReader([]byte(fetchByIdResponse)))
 	account.Client = &utils.MockClient{}
 	utils.DoFunc = func(req *http.Request) (*http.Response, error) {
 		return &http.Response{
@@ -22,7 +23,7 @@ func TestCreateAccountWithSuccess(t *testing.T) {
 		}, nil
 	}
 	accountCreate := account.AccountCreate{}
-	accountFixture := AccountFixture{}
+	accountFixture := FixtureAccount{}
 	res, err := accountCreate.Create(accountFixture.Create())
 
 	if err != nil {
@@ -41,7 +42,7 @@ func TestCreateAccountWithFailedRequest(t *testing.T) {
 		return nil, errors.New("account_create_test: Failed forced error")
 	}
 	accountCreate := account.AccountCreate{}
-	accountFixture := AccountFixture{}
+	accountFixture := FixtureAccount{}
 	res, err := accountCreate.Create(accountFixture.Create())
 
 	if res != nil {
@@ -65,7 +66,7 @@ func TestCreateAccountWithBadRequestResponse(t *testing.T) {
 	}
 
 	accountCreate := account.AccountCreate{}
-	accountFixture := AccountFixture{}
+	accountFixture := FixtureAccount{}
 	res, err := accountCreate.Create(accountFixture.Create())
 
 	if res != nil {

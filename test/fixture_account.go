@@ -5,9 +5,9 @@ import (
 	"github.com/hmarcelodn/form3tech/client"
 )
 
-type AccountFixture struct{}
+type FixtureAccount struct{}
 
-func (a AccountFixture) Create() client.Account {
+func (a FixtureAccount) Create() client.Account {
 	organisationId, err := uuid.NewRandom()
 	accountId, err := uuid.NewRandom()
 
@@ -30,7 +30,7 @@ func (a AccountFixture) Create() client.Account {
 	return account
 }
 
-func (a AccountFixture) CreateInvalid() client.Account {
+func (a FixtureAccount) CreateInvalid() client.Account {
 	organisationId, err := uuid.NewRandom()
 	accountId, err := uuid.NewRandom()
 
