@@ -2,12 +2,15 @@ package test
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"reflect"
 	"testing"
 
 	"github.com/hmarcelodn/form3tech/account"
+	"github.com/hmarcelodn/form3tech/client"
 	"github.com/hmarcelodn/form3tech/utils"
 )
 
@@ -33,6 +36,18 @@ func TestFetchWithValidResponse(t *testing.T) {
 
 	if res == nil {
 		t.Fail()
+	}
+
+	if res != nil {
+		fetchResponse := client.FetchResponse{}
+		json.Unmarshal(bytes.NewBufferString(fixtureFetchResponse).Bytes(), &fetchResponse)
+		if !reflect.DeepEqual(fetchResponse.Data, res.Data) {
+			t.Fail()
+		}
+
+		if !reflect.DeepEqual(fetchResponse.Links, res.Links) {
+			t.Fail()
+		}
 	}
 }
 
@@ -96,6 +111,18 @@ func TestFetchByIdWithValidResponse(t *testing.T) {
 
 	if res == nil {
 		t.Fail()
+	}
+
+	if res != nil {
+		fetchByIDResponse := client.FetchByIDResponse{}
+		json.Unmarshal(bytes.NewBufferString(fixtureFetchByIdResponse).Bytes(), &fetchByIDResponse)
+		if !reflect.DeepEqual(fetchByIDResponse.Data, res.Data) {
+			t.Fail()
+		}
+
+		if !reflect.DeepEqual(fetchByIDResponse.Links, res.Links) {
+			t.Fail()
+		}
 	}
 
 	if err != nil {

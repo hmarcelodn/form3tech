@@ -2,12 +2,15 @@ package test
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"reflect"
 	"testing"
 
 	"github.com/hmarcelodn/form3tech/account"
+	"github.com/hmarcelodn/form3tech/client"
 	"github.com/hmarcelodn/form3tech/utils"
 )
 
@@ -26,8 +29,19 @@ func TestCreateAccountWithSuccess(t *testing.T) {
 	accountFixture := FixtureAccount{}
 	res, err := accountCreate.Create(accountFixture.Create())
 
+	if res != nil {
+		accountCreateResponse := client.AccountCreateResponse{}
+		json.Unmarshal(bytes.NewBufferString(fetchByIdResponse).Bytes(), &accountCreateResponse)
+		if !reflect.DeepEqual(res.Data, accountCreateResponse.Data) {
+			t.Fail()
+		}
+
+		if !reflect.DeepEqual(res.Links, accountCreateResponse.Links) {
+			t.Fail()
+		}
+	}
+
 	if err != nil {
-		t.Logf(err.Error())
 		t.Fail()
 	}
 

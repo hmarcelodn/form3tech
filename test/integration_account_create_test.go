@@ -13,10 +13,26 @@ func TestCreateAccountWithValidCountry(t *testing.T) {
 	account.Client = &http.Client{}
 	var accountCreate account.AccountCreate
 	accountFixture := FixtureAccount{}
+	account := accountFixture.Create()
 
-	res, err := accountCreate.Create(accountFixture.Create())
+	res, err := accountCreate.Create(account)
 
 	if res == nil {
+		t.Fail()
+	}
+
+	if res.Data.ID != account.AccountId ||
+		res.Data.OrganisationID != account.OrganisationID ||
+		*res.Data.Attributes.Country != account.Country ||
+		res.Data.Attributes.Name[0] != account.Name ||
+		res.Data.Attributes.BankID != account.BankID ||
+		res.Data.Attributes.BankIDCode != account.BankIDCode ||
+		res.Data.Attributes.AccountNumber != account.AccountNumber ||
+		res.Data.Attributes.Iban != account.Iban {
+		t.Fail()
+	}
+
+	if res.Data.OrganisationID != account.OrganisationID {
 		t.Fail()
 	}
 
